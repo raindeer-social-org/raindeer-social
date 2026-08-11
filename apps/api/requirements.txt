@@ -1,0 +1,19 @@
+# Core API framework
+fastapi==0.115.0
+uvicorn[standard]==0.32.0
+
+# Database — SQLAlchemy + Alembic against Postgres (pgvector), per blueprint §1.6
+sqlalchemy==2.0.36
+alembic==1.14.0
+psycopg[binary]==3.2.3
+pgvector==0.3.6
+
+# Config / validation
+pydantic==2.9.2
+pydantic-settings==2.6.1
+python-dotenv==1.0.1
+
+# Testing (matches CONTRIBUTING.md "Running tests locally" + backend-ci.yml)
+pytest==8.3.3
+pytest-cov==6.0.0
+httpx==0.27.2

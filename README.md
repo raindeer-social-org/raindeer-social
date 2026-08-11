@@ -26,9 +26,58 @@ Docker Compose for local dev.
 
 ## Getting started
 
-Local dev environment setup (Python, Node, Postgres/pgvector, Docker, Redis)
-is tracked as Issue #1 and will be documented here once it lands. In the
-meantime, see the blueprint's Milestone 0 section for the target setup.
+This covers the backend (`apps/api`). Frontend (`apps/web`) setup will land
+with its own issue.
+
+### Prerequisites
+
+- Python 3.11
+- PostgreSQL 16+ with the [pgvector](https://github.com/pgvector/pgvector)
+  extension available
+
+### 1. Clone and create a virtualenv
+
+```bash
+git clone <repo-url>
+cd raindeer-social
+python3.11 -m venv .venv
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
+```
+
+### 2. Install dependencies
+
+```bash
+pip install -r apps/api/requirements.txt
+```
+
+### 3. Set up Postgres
+
+Create the local database and enable pgvector:
+
+```bash
+createdb raindeer
+psql raindeer -c "CREATE EXTENSION IF NOT EXISTS vector;"
+```
+
+### 4. Configure environment variables
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` and fill in `DATABASE_URL` (defaults to the `createdb raindeer`
+database above) and at least one LLM provider key (`OPENROUTER_API_KEY` or
+`OPENAI_API_KEY`).
+
+### 5. Run the API
+
+```bash
+uvicorn apps.api.main:app --reload
+```
+
+It should boot with no import errors. Check `python --version` (3.11.x),
+`which python` (should point into `.venv`), and
+`psql raindeer -c "SELECT 1;"` if anything above fails.
 
 ## Contributing
 
